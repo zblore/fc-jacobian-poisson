@@ -1,0 +1,178 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+
+version: "v0.4"
+
+# Authors and maintainers use the {name, orcid} form that Palomar's submission profile accepts.
+# The upstream v0.4 schema takes plain name strings, so a strict check against it reports those
+# two entries; everything else validates.
+
+project:
+  name: "The Jacobian conjecture in dimension 2n implies the Poisson conjecture in dimension n"
+  description: >-
+    A machine-checked proof that, over a field of characteristic zero, the Jacobian conjecture
+    in dimension 2n implies the Poisson conjecture in dimension n (K. Adjamagbo and A. van den
+    Essen, 2007, Theorem 7). The statement and definitions are Formal Conjectures'
+    (poisson_conjecture.variants.jacobian_implication in PoissonConjecture.lean, arXiv
+    math/0608009), copied verbatim into Challenge.lean, so this entry proves Formal Conjectures'
+    own statement. A Poisson endomorphism's Jacobian matrix lies in Mathlib's symplectic group,
+    so its determinant is a unit; the Jacobian conjecture then gives a polynomial inverse.
+  authors:
+    - name: "Zayn Blore"
+      orcid: "0009-0009-8447-7247"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - name: "Zayn Blore"
+      orcid: "0009-0009-8447-7247"
+
+sources:
+  - title: "A proof of the equivalence of the Dixmier, Jacobian and Poisson conjectures"
+    authors:
+      - "Kossivi Adjamagbo"
+      - "Arno van den Essen"
+    id: "https://arxiv.org/abs/math/0608009"
+    type: "paper"
+    location: >-
+      Theorem 1 (a Poisson endomorphism has a symplectic Jacobian) and Theorem 7(1), the
+      implication CJC(2n) => CPC(n). Published in Acta Math. Vietnam. 32 (2007), 205-214; the
+      arXiv version is titled "On the equivalence of the Jacobian, Dixmier and Poisson
+      Conjectures in any characteristic".
+    relationship: "formalizes"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "https://github.com/google-deepmind/formal-conjectures/blob/a64e959c32c270df4dd0d96d2027481f15750534/FormalConjectures/Arxiv/math.0608009/PoissonConjecture.lean"
+    relationship: "builds-on"
+    note: >-
+      Supplies the statement `poisson_conjecture.variants.jacobian_implication` and the
+      definitions it uses: IsPoissonEndomorphism and PoissonConjectureFor from this file,
+      JacobianConjectureProp from FormalConjectures/Wikipedia/JacobianConjecture.lean,
+      poissonBracket from FormalConjecturesForMathlib/Algebra/MvPolynomial/PoissonBracket.lean,
+      and RegularFunction with its Jacobian, comp and id from
+      FormalConjecturesForMathlib/Algebra/MvPolynomial/RegularFunction.lean. Challenge.lean and
+      JacPoisson/Defs.lean copy them verbatim, with their names, and Challenge.lean copies the
+      statement; scripts/check-fc-match.py checks this against Formal Conjectures at that
+      commit. Palomar does not accept escaped name components such as «math.0608009» in theorem
+      names, so Challenge.lean states the theorem in the namespace PoissonConjecture, with
+      Formal Conjectures' leaf name; Solution proves it under both this name and Formal
+      Conjectures' own.
+  - id: "https://palomar-registry.org/entry.html?id=PALOMAR-2026-11-01-000002"
+    relationship: "independent"
+    note: >-
+      My Palomar entry for four other statements of the same Formal Conjectures file (the
+      Poisson conjecture is false for n >= 2). It shares the definitions but none of the proof.
+
+classification:
+  arxiv:
+    - "math.RA"
+    - "math.AG"
+  msc2020:
+    - "14R15"
+    - "17B63"
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "Claude Opus 5.5"
+      framework: "Claude Code"
+  notes: >-
+    I drafted the Lean with Claude Code, following the paper's Theorems 1 and 7, with a shorter
+    route to the determinant through Mathlib's symplectic group.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "Zayn Blore"
+  notes: >-
+    Checked locally (Windows): the build, including an `example` in JacPoisson/FormalTarget.lean
+    that checks that Formal Conjectures' name and the PoissonConjecture name have the same
+    statement at every universe level; scripts/check-fc-match.py and its self-test, which check
+    that Challenge.lean is Formal Conjectures' definitions and statement, character for
+    character, and nothing else, and that nothing before the copied text in Formal Conjectures'
+    four source files changes its meaning; `audit/Axioms.lean`, which enforces with
+    `#guard_msgs` that the main results use only propext, Classical.choice and Quot.sound; and
+    `audit/Control.lean`, which checks that the audit detects `sorryAx`, specialises the result
+    to the rationals for n = 1, checks the bracket sign against Mathlib's `Matrix.J`, and applies
+    the determinant lemma to a non-linear Poisson endomorphism. `lake comparator` needs Linux,
+    so it runs in CI and in Palomar's own pipeline.
+
+status:
+  scope: >-
+    Full proof of the single Formal Conjectures statement
+    `poisson_conjecture.variants.jacobian_implication`. Apart from the placeholder in
+    Challenge.lean, the only sorry is a deliberate control in audit/Control.lean, which Solution
+    does not import.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms:
+    - "propext"
+    - "Classical.choice"
+    - "Quot.sound"
+  main_results:
+    - description: >-
+        The Jacobian conjecture in dimension 2n implies the Poisson conjecture in dimension n.
+        Also proved as PoissonConjecture.poisson_conjecture.variants.jacobian_implication, the
+        name Palomar checks.
+      declaration: "Arxiv.«math.0608009».poisson_conjecture.variants.jacobian_implication"
+      file: "JacPoisson/FormalTarget.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Classical.choice"
+        - "Quot.sound"
+    - description: >-
+        A polynomial map preserving the canonical Poisson bracket on the generators has a unit
+        Jacobian determinant, over any commutative ring.
+      declaration: "JacPoisson.isUnit_det_jacobian"
+      file: "JacPoisson/Main.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Classical.choice"
+        - "Quot.sound"
+    - description: >-
+        Formal Conjectures' Jacobian conjecture for one set of variables gives it for any
+        equivalent set.
+      declaration: "JacPoisson.jacobianConjectureProp_congr"
+      file: "JacPoisson/Main.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Classical.choice"
+        - "Quot.sound"
+
+fidelity:
+  divergences: >-
+    None in the statement, which is Formal Conjectures' own, copied verbatim. The paper proves
+    that the Jacobian determinant of a Poisson endomorphism is 1 when n! is invertible, using
+    volume forms; Formal Conjectures' Jacobian conjecture asks only for a unit determinant, and
+    the proof gets that directly, over any commutative ring, from Mathlib's
+    `Matrix.SymplecticGroup.symplectic_det`. Formal Conjectures indexes the 2n variables by
+    `Fin n ⊕ Fin n` for the Poisson conjecture and by `Fin (2 * n)` for the Jacobian conjecture;
+    the proof moves between the two by an explicit equivalence.
+
+alignment:
+  namespaces:
+    - "Arxiv.«math.0608009»"
+    - "PoissonConjecture"
+    - "JacPoisson"
+  statements:
+    - source: "Formal Conjectures, poisson_conjecture.variants.jacobian_implication"
+      lean: "Arxiv.«math.0608009».poisson_conjecture.variants.jacobian_implication"
+      module: "JacPoisson.FormalTarget"
+      status: "proved"
+      note: "Formal Conjectures' own name."
+    - source: "Formal Conjectures, poisson_conjecture.variants.jacobian_implication"
+      lean: "PoissonConjecture.poisson_conjecture.variants.jacobian_implication"
+      module: "JacPoisson.FormalTarget"
+      status: "proved"
+      note: >-
+        The name in comparator.json and Challenge.lean; same statement as Formal Conjectures'
+        name, checked in Lean at every universe level.
+    - source: "Adjamagbo and van den Essen (2007), Theorem 7(1)"
+      lean: "JacPoisson.jacobian_implication"
+      module: "JacPoisson.Main"
+      status: "proved"
+
+acknowledgements: >-
+  Thanks to the authors of Lean 4, Mathlib and Formal Conjectures.
