@@ -43,9 +43,12 @@ namespace `Arxiv.«math.0608009»`, but Palomar does not accept escaped name com
 definitions keep their Formal Conjectures names, so the statement is the same term. `Solution`
 also proves it under Formal Conjectures' own name.
 
-The Jacobian conjecture is false in dimension 3 and above, so for `n ≥ 2` the hypothesis is false
-and the statement holds trivially; its content is the case `n = 1`, where both conjectures are
-open.
+Formal Conjectures proves that the Jacobian conjecture fails
+(`JacobianConjecture.jacobian_conjecture`, in
+`FormalConjectures/Wikipedia/JacobianConjecture.lean`). Its map `JacobianConjecture.G` of K³, after
+L. Alpöge (2026), has Jacobian determinant 1 and sends (1, 0, 1) and (0, 3, −71) to the same point.
+The statement here is proved for every `n`. Its content lies where the Jacobian conjecture in
+dimension `2n` is open, in particular `n = 1`.
 -/
 
 @[expose] public section

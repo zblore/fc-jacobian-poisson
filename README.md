@@ -8,7 +8,7 @@ Take polynomials in 2n variables x₁, …, xₙ, y₁, …, yₙ over a field o
 
 K. Adjamagbo and A. van den Essen, "A proof of the equivalence of the Dixmier, Jacobian and Poisson conjectures", Acta Math. Vietnam. 32 (2007), 205–214 (arXiv:math/0608009), Theorem 7, proved a chain of implications: the Jacobian conjecture in dimension 2n implies the Poisson conjecture in dimension n, which implies the Dixmier conjecture in dimension n, which implies the Jacobian conjecture in dimension n. This repository proves the first link.
 
-The Jacobian conjecture is now known to be false from dimension 3 on, and the Poisson conjecture from dimension 2 on. The implication is still not empty: the Jacobian conjecture in dimension 2 is open, and so is the Poisson conjecture in dimension 1, so the case n = 1 cannot be settled by either counterexample.
+Formal Conjectures proves that the Jacobian conjecture fails in dimension 3, with an explicit polynomial map of Jacobian determinant 1 that sends two points to the same point (after L. Alpöge, 2026). The Poisson conjecture fails in dimension 2 (C. D. Long, arXiv:2608.23777, formally proved in PALOMAR-2026-11-01-000002). The implication is proved for every n. Neither counterexample touches the case n = 1: the Jacobian conjecture in dimension 2 and the Poisson conjecture in dimension 1 are both open.
 
 ## The proof
 
